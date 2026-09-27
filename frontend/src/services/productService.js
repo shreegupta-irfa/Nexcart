@@ -1,0 +1,1 @@
+import api from './api';export const getProducts=(params)=>api.get('/products',{params});export const getProduct=(id)=>api.get(`/products/${id}`);export const search=(q)=>api.get('/products/smart-search',{params:{q}});

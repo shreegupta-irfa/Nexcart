@@ -1,0 +1,1 @@
+export default function PlaceholderPage({title}){return <section><p className="eyebrow">NEXCART</p><h1>{title}</h1><p>This area is ready for its secured API-backed workflow. Configure Supabase and sign in to use your account data.</p></section>}

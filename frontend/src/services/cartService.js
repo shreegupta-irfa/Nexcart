@@ -1,0 +1,1 @@
+import api from './api';export const getCart=()=>api.get('/cart');export const addCart=(data)=>api.post('/cart',data);export const updateCart=(id,data)=>api.patch(`/cart/${id}`,data);export const removeCart=id=>api.delete(`/cart/${id}`);

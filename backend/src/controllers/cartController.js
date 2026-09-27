@@ -1,0 +1,6 @@
+import Cart from '../models/Cart.js'; import { supabase } from '../config/supabase.js'; import AppError from '../utils/AppError.js'; import { ok } from '../utils/response.js';
+export const getCart=async(req,res,next)=>{try{ok(res,await Cart.get(req.user.id),'Cart fetched');}catch(e){next(e);}};
+export const add=async(req,res,next)=>{try{await Cart.add(req.user.id,req.body.productId,req.body.quantity,req.body.variantId); ok(res,await Cart.get(req.user.id),'Added to cart',201);}catch(e){next(e);}};
+export const update=async(req,res,next)=>{try{if(Number(req.body.quantity)<1) throw new AppError('Quantity must be at least 1',422); const {error}=await supabase.from('cart_items').update({quantity:req.body.quantity}).eq('id',req.params.itemId); if(error)throw new AppError('Could not update cart',400); ok(res,await Cart.get(req.user.id),'Cart updated');}catch(e){next(e);}};
+export const remove=async(req,res,next)=>{try{await supabase.from('cart_items').delete().eq('id',req.params.itemId);ok(res,await Cart.get(req.user.id),'Item removed');}catch(e){next(e);}};
+export const clear=async(req,res,next)=>{try{const c=await Cart.get(req.user.id);await supabase.from('cart_items').delete().eq('cart_id',c.id);ok(res,{},'Cart cleared');}catch(e){next(e);}};
